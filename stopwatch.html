@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stocpwatch</title>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+        height: 100vh;
+        background: linear-gradient(135deg, hsl(194, 78%, 67%), #2930bf);
+        color: #f0f0f0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .container {
+        background-color: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        padding: 40px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        text-align: center;
+        width: 320px;
+        backdrop-filter: blur(12px);
+    }
+
+    .display {
+        background-color: rgba(255, 255, 255, 0.1);
+        height: 100px;
+        width: 200px;
+        font-size: 38px;
+        margin: 0 auto 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.05);
+    }
+
+    button {
+        margin: 5px;
+        padding: 12px 20px;
+        font-size: 16px;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        background: linear-gradient(145deg, #2c2c40, #1f1f30);
+        color: #f0f0f0;
+        transition: background 0.3s, transform 0.2s;
+    }
+
+    button:hover {
+        background: linear-gradient(145deg, #3c3c55, #2a2a3e);
+        transform: scale(1.05);
+    }
+
+    button:active {
+        transform: scale(0.95);
+    }
+
+    .list {
+        margin-top: 25px;
+        text-align: left;
+        max-height: 150px;
+        overflow-y: auto;
+        padding: 10px;
+        background-color: rgba(255, 255, 255, 0.07);
+        border-radius: 10px;
+    }
+
+    .list div {
+        background-color: rgba(255, 255, 255, 0.15);
+        padding: 8px 12px;
+        margin: 6px 0;
+        border-radius: 6px;
+        color: #ffffff;
+        font-size: 14px;
+    }
+</style>
+
+</head>
+<body>
+    <div class="container">
+        <div class="display">"Click Start"</div>
+        <button class="start">start</button>
+        <button class="gettime">gettime</button>
+        <button class="stop">stop</button>
+        <button class="cleartime">cleartime</button>
+        <button class="reset">reset</button>
+        <section class="list"></section>
+    </div>
+
+    <script>
+        let display=document.querySelector(".display")
+        let start=document.querySelector(".start")
+        let gettime=document.querySelector(".gettime")
+        let stop=document.querySelector(".stop")
+        let cleartime=document.querySelector(".cleartime")
+        let reset=document.querySelector(".reset")
+        let gelistttime=document.querySelector(".list")
+
+        //DEFINE FUNCTION
+        seconds=0;
+        function displayfn(){
+            //let seconds= new Date().getSeconds();
+            seconds=seconds+1;
+            display.innerHTML=seconds;
+        }
+        //stopfn
+        function stopfn(){
+            clearInterval(interval_id);
+        }
+        //resetfn
+        function resetfn(){
+            clearInterval(interval_id);
+            seconds=0;
+            display.innerHTML="dd";
+        }
+        //gettimefn    //adds divElement in section
+        function gettimefn(){
+            const divElement= document.createElement("div");
+            divElement.classList.add("list");
+            divElement.innerHTML=`${seconds}`;
+            gelistttime.append(divElement);
+        }
+        //cleartimefn  //clears the history from the section
+        function cleartimefn(){
+            gelistttime.innerHTML="";
+        }
+//function callers
+        start.addEventListener("click",()=>{
+            interval_id=setInterval(displayfn,1000)
+        });
+        stop.addEventListener("click",()=>{
+            stopfn();
+        })
+        reset.addEventListener("click",()=>{
+            resetfn();
+        })
+        gettime.addEventListener("click",()=>{
+            gettimefn();
+        })
+        cleartime.addEventListener("click",()=>{
+            cleartimefn();
+        })
+        //start.addEventListener("click")
+    </script>
+</body>
+</html>
